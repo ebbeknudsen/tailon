@@ -7,11 +7,10 @@ import (
 	"os"
 	"os/exec"
 	"strconv"
+	"tailon/cmd"
 	"tailon/frontend"
 	"text/template"
 	"time"
-
-	"tailon/cmd"
 
 	"github.com/gorilla/handlers"
 	"github.com/shurcooL/httpfs/html/vfstemplate"
