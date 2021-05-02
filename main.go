@@ -3,15 +3,16 @@ package main
 
 import (
 	"fmt"
-	"github.com/mitchellh/mapstructure"
-	"github.com/pelletier/go-toml"
-	flag "github.com/spf13/pflag"
 	"io/ioutil"
 	"log"
 	"net"
 	"os"
 	"strings"
 	"sync"
+
+	"github.com/mitchellh/mapstructure"
+	"github.com/pelletier/go-toml"
+	flag "github.com/spf13/pflag"
 )
 
 const scriptDescription = `
@@ -89,6 +90,8 @@ const defaultTomlConfig = `
   relative-root = "/"
   listen-addr = [":8080"]
   allow-download = true
+  lines-of-history = 2000
+  lines-to-tail = 100
   allow-commands = ["tail", "grep", "sed", "awk"]
 
   [commands]
@@ -202,6 +205,8 @@ type Config struct {
 	ConfigPath        string
 	WrapLinesInitial  bool
 	TailLinesInitial  int
+	LinesToTail       int64
+	LinesOfHistory    int64
 	AllowCommandNames []string
 	AllowDownload     bool
 
@@ -221,10 +226,12 @@ func makeConfig(configContent string) *Config {
 	}
 
 	config := Config{
-		BindAddr:      addrsB,
-		RelativeRoot:  defaults.Get("relative-root").(string),
-		AllowDownload: defaults.Get("allow-download").(bool),
-		CommandSpecs:  commandSpecs,
+		BindAddr:       addrsB,
+		RelativeRoot:   defaults.Get("relative-root").(string),
+		LinesToTail:    defaults.Get("lines-to-tail").(int64),
+		LinesOfHistory: defaults.Get("lines-of-history").(int64),
+		AllowDownload:  defaults.Get("allow-download").(bool),
+		CommandSpecs:   commandSpecs,
 	}
 
 	mapstructure.Decode(defaults.Get("allow-commands"), &config.AllowCommandNames)
