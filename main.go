@@ -249,6 +249,8 @@ func main() {
 
 	flag.StringVarP(&config.RelativeRoot, "relative-root", "r", config.RelativeRoot, "webapp relative root")
 	flag.BoolVarP(&config.AllowDownload, "allow-download", "a", config.AllowDownload, "allow file downloads")
+	flag.Int64VarP(&config.LinesToTail, "lines-to-tail", "", config.LinesToTail, "lines to tail")
+	flag.Int64VarP(&config.LinesOfHistory, "lines-of-history", "", config.LinesOfHistory, "lines of history")
 	flag.StringVarP(&config.ConfigPath, "config", "c", "", "")
 	flag.Parse()
 

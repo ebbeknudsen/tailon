@@ -2,7 +2,7 @@ services:
   tailon:
     image: tailon:dev
     container_name: tailon
-    command: "/test.log /non-existing.log"
+    command: "--lines-to-tail 100 --lines-of-history 2000 /test.log /non-existing.log"
     volumes:
      - "./test.log:/test.log"
     ports:

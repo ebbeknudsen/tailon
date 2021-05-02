@@ -15,7 +15,10 @@ frontend-watch:
 	cd frontend && $(MAKE) watch BUILD=$(BUILD)
 
 docker-build:
-	sudo docker build -t gvalkov/tailon .
+	docker build -t tailon:dev .
+
+docker-release:
+	docker build -t ghcr.io/ebbeknudsen/tailon:latest . && docker push --all-tags ghcr.io/ebbeknudsen/tailon
 
 README.md:
 	go build

@@ -2,15 +2,16 @@ package main
 
 import (
 	"encoding/json"
+	"html/template"
 	"log"
 	"net/http"
 	"os"
 	"os/exec"
 	"strconv"
-	"tailon/cmd"
 	"tailon/frontend"
-	"text/template"
 	"time"
+
+	"github.com/go-cmd/cmd"
 
 	"github.com/gorilla/handlers"
 	"github.com/shurcooL/httpfs/html/vfstemplate"
@@ -186,7 +187,7 @@ func expandCommandArgs(action []string, cmd FrontendCommand) []string {
 // Goroutine that streams command stdout and stderr to the client.
 func streamOutput(procA *exec.Cmd, procB *cmd.Cmd, session sockjs.Session) {
 	if procA != nil {
-		procB.Stdin, _ = procA.StdoutPipe()
+		// procB.Stdin, _ = procA.StdoutPipe()
 		procA.Start()
 	}
 
@@ -216,9 +217,9 @@ func killProcs(procA *exec.Cmd, procB *cmd.Cmd) {
 
 	if procB != nil {
 		log.Printf("Stopping pid %d", procB.Status().PID)
-		if procB.Stdin != nil {
-			procB.Stdin.Close()
-		}
+		// if procB.Stdin != nil {
+		// 	procB.Stdin.Close()
+		// }
 		procB.Stop()
 	}
 }
